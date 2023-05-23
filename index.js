@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -42,12 +42,39 @@ async function run() {
         res.send(result);
     })
 
+    // To read some data/get some data
+
+    app.get('/myToys', async(req, res)=>{
+      console.log(req.query.email)
+      let query = {}
+      if(req.query?.email){
+        query ={email: req.query.email}
+      }
+      const result = await toyCollection.find(query).toArray();
+      res.send(result);
+    })
+
     app.post('/toy', async(req, res)=>{
       const toy = req.body;
       console.log(toy);
       const result = await toyCollection.insertOne(toy);
       res.send(result);
     })
+
+    app.delete('/toys/:id', async(req, res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await toyCollection.deleteOne(query);
+      res.send(result);
+
+    })
+
+  app.get('/singleToy/:id', async(req, res)=>{
+    const id = req.params.id;
+    const query = {_id: new ObjectId(id)};
+    const result = await toyCollection.findOne(query);
+    res.send(result);
+  })
     
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
