@@ -11,8 +11,6 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-console.log(process.env.DB_PASS);
-
 
 var uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ac-dw7wxlj-shard-00-00.uyzlba8.mongodb.net:27017,ac-dw7wxlj-shard-00-01.uyzlba8.mongodb.net:27017,ac-dw7wxlj-shard-00-02.uyzlba8.mongodb.net:27017/?ssl=true&replicaSet=atlas-85xndo-shard-0&authSource=admin&retryWrites=true&w=majority`;
 
